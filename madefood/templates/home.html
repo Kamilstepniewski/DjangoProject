@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+{% endblock %}
+{% block content %}
+<!-- {{ block.super }} -->
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div id="home-content"></div>
+            <h1>Made Food - Get Started</h1>
+            <h3>Have trouble with prepere food? You have no idea what cook ? Click
+            below to spice up your diet</h3>
+            <hr>
+            <button type="button" class="btn btn-light btn-lg">Get Started</button>
+        </div>
+    </div>
+</div>
+<!--<h1>Welcome to MadeFood</h1>-->
+<!--<button type="button" class="btn btn-success">Rob cos</button>-->
+{% endblock %}
+
+

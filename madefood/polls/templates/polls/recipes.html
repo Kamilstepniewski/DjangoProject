@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to recipes list</h1>
+    <ul>
+    {% for recipe in recipes %}
+    	<li><a href="{% url 'makefood:detail' recipe.id %}">{{recipe}}</a></li>
+    	{% endfor %}
+	</ul>
+</div>
+{% endblock %}

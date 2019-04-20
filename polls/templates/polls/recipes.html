@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/recipes_style.css' %}">
+    {% endblock %}
+
+
+{% block content %}
+<div class="container">
+	{% if request.user.is_authenticated %}
+		<h2 class='text-center'>Welcome {{ request.user.first_name }} {{ request.user.last_name }}</h2>
+	{% else %}
+		<h2>You're not logged in . Please sign up and take adventages. It doesn't cost .</h2>
+	{% endif %}
+    <h1 class='text-center'> Recipes list wchich we prepera for you</h1>
+    <div class="row">
+    	<div class="col-sm-8 offset-sm-2">
+    		{% if messages %}
+				<ul class="messages">
+					{% for message in messages %}
+					<!-- <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li> -->
+					<div {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+  						{{ message }}
+  						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+   						<span aria-hidden="true">&times;</span>
+  						</button>
+					</div>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			<a href="?text=True" class ="btn btn-{% if 'text' in request.GET %}warning{% else %}primary{% endif %}" style="margin-bottom: 10px">Title</a>
+			<a href="?pub_date=True" class ="btn btn-{% if 'pub_date' in request.GET %}warning{% else %}primary{% endif %}" style="margin-bottom: 10px">Publish date</a>
+			<a href="?num_votes=True" class ="btn btn-{% if 'num_votes' in request.GET %}warning{% else %}primary{% endif %}" style="margin-bottom: 10px">Number of votes</a>
+    		<a href="{% url 'makefood:add' %}" class ="btn btn-primary" style="margin-bottom: 10px">Add<i class="fas fa-plus"></i></a>
+
+    		 <form class="form-inline my-2 my-lg-1">
+      			<input 
+      			class="form-control mr-sm-2" 
+      			type="search" 
+      			placeholder="Search" 
+      			aria-label="Search"
+      			name="search" 
+      			value="{{search_term}}" 
+      			>
+      			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    		</form>
+
+    		<ul class="list-group">
+		    		{% for recipe in recipes %}
+			    	<li
+			    	class="list-group-item">
+			    	<a href="{% url 'makefood:detail' recipe.id %}"> {{ recipe }}</a>
+			    	{% if request.user == recipe.owner %}
+			    	<a href="{% url 'makefood:edit_recipe' recipe.id %}" class='float-right'><i class="far fa-edit"></i></a>
+			    	{% endif %}
+			    	</li>
+		    		{% endfor %}
+			</ul>
+
+				<div class="pagination">
+				    <span class="step-links">
+				        {% if recipes.has_previous %}
+				            <a href="?page=1&{{params}}">&laquo; first</a>
+				            <a href="?page={{ recipes.previous_page_number }}&{{params}}">previous</a>
+				        {% endif %}
+
+				        <span class="current">
+				            Page {{ recipes.number }} of {{ recipes.paginator.num_pages }}.
+				        </span>
+
+				        {% if recipes.has_next %}
+				            <a href="?page={{ recipes.next_page_number }}&{{params}}">next</a>
+				            <a href="?page={{ recipes.paginator.num_pages }}&{{params}}">last &raquo;</a>
+				        {% endif %}
+				    </span>
+				</div>
+
+    	</div> 
+	</div>
+</div>
+{% endblock %}
+
+<!-- polls = makefood -->
+<!-- poll = recipe -->

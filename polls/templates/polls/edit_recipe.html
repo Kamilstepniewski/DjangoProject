@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+	<h1 class='text-center'> Edit Your Recipe</h1>
+		<div class="row">
+			<div class="col-sm-6 offset-sm-3">
+				<form action="" method="post">
+					{% csrf_token %}
+					{% for field in form %}
+						<div class="form-group">
+							{{ field.errors }}
+			    			{{ field.label_tag }}
+			    			{{ field }}
+			  				</div>
+					{% endfor %}
+					<input type="submit" name="submit" class="btn btn-primary" value="Edit">
+					<a  href="{% url 'makefood:add_comment' recipes.id %}" class="btn btn-warning">Add Rating</a>
+					<a href="{% url 'makefood:recipe_confirm_delete' recipes.id %}"
+              				class='btn btn-danger'>
+              			<i class="far fa-trash-alt"></i> Delete
+          				</a>
+				</form>
+				<h3 class='text-center'>Ratings</h3>
+				{% for comment in recipes.comment_set.all  %}
+				<p><a href="{% url 'makefood:edit_comment' comment.id %}"><i class="far fa-edit"></i></a>{{comment.comment_text}}</p>
+				{% endfor %}
+			</div>
+		</div>
+</div>
+{% endblock %}

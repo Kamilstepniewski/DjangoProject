@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Recipe Detail</h1>
+{{recipes}}
+
+<form action="{% url 'makefood:vote' recipes.id %}" method="post">
+	{% csrf_token %}
+
+	{% for comment in recipes.comment_set.all %}
+
+	<input  type="radio" 
+			name="comment"
+			id = "comment{{ forloop.counter }}"
+			value="{{comment.id}}" />
+
+	<label for="comment{{ forloop.counter }}">{{comment.comment_text}}</label>
+<br/>
+	{% endfor %}
+
+	<input type="submit" name="Vote"/>
+
+</form>
+
+{% endblock %}
